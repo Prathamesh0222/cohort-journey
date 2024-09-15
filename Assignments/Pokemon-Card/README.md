@@ -8,6 +8,8 @@ You can see a live demo of the application deployed on Vercel:
 
 [Live Preview](https://pokemoncard-stats.vercel.app/)
 
+![Preview Image](./preview.jpg "Preview of the app")
+
 ## Features
 
 - **Search for Pokémon**: Enter the name of a Pokémon in the search bar to fetch its details.
