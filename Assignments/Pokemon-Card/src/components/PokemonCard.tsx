@@ -56,7 +56,7 @@ export const PokemonCard = () => {
       const data = await response.json();
       setPokemon(data);
     } catch (error) {
-      setError("Pokemon not found. Please try with a valid name");
+      setError("Pokemon not found.");
       console.log(error);
     } finally {
       setLoading(false);
@@ -68,12 +68,12 @@ export const PokemonCard = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-purple-500 via-sky-400 to-blue-600 items-center justify-center">
-      <div className="border duration-500 hover:scale-110 bg-white shadow-lg p-12 rounded-lg">
-        <h1 className="text-center font-bold text-3xl mb-8">Pokemon Card</h1>
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-purple-500 via-sky-400 to-blue-600">
+      <div className="p-12 duration-500 bg-white border rounded-lg shadow-lg hover:scale-110">
+        <h1 className="mb-8 text-3xl font-bold text-center">Pokemon Card</h1>
         <div className="space-x-2">
           <input
-            className="border p-2 rounded-lg"
+            className="p-2 border rounded-lg"
             placeholder="Search for Pokemon..."
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setPokemonName(e.target.value)
@@ -82,14 +82,14 @@ export const PokemonCard = () => {
           />
           <button
             onClick={fetchPokemon}
-            className="p-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg text-white"
+            className="p-2 text-white rounded-lg bg-neutral-900 hover:bg-neutral-800"
             disabled={loading}
           >
             {loading ? "Searching.." : "Search"}
           </button>
         </div>
 
-        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        {error && <p className="mt-2 mb-4 text-center text-red-500">{error}</p>}
 
         {pokemon && (
           <div
@@ -98,8 +98,8 @@ export const PokemonCard = () => {
             )}`}
           >
             <div className="pb-4">
-              <div className="bg-white bg-opacity-90 pt-4">
-                <div className="text-2xl pb-4 font bold capitalize text-center">
+              <div className="pt-4 bg-white bg-opacity-90">
+                <div className="pb-4 text-2xl text-center capitalize font bold">
                   {pokemon.name}
                 </div>
               </div>
@@ -107,10 +107,10 @@ export const PokemonCard = () => {
                 <img
                   src={pokemon.sprites.front_default}
                   alt={pokemon.name}
-                  className="w-48 h-48 object-contain"
+                  className="object-contain w-48 h-48"
                 />
               </div>
-              <div className="text-black text-center">
+              <div className="text-center text-black">
                 <p className="mb-2 text-lg">
                   <span className="font-bold">Type:</span>{" "}
                   {pokemon.types.map((type) => type.type.name).join(", ")}
