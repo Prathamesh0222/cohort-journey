@@ -8,7 +8,7 @@ You can see a live demo of the application deployed on Vercel:
 
 [Live Preview](https://pokemoncard-stats.vercel.app/)
 
-![Preview Image](./preview.jpg "Preview of the app")
+![Preview Image](https://raw.githubusercontent.com/Prathamesh0222/cohort-journey/main/Assignments/Pokemon-Card/public/preview.jpg)
 
 ## Features
 
