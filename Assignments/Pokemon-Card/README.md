@@ -6,7 +6,7 @@ Welcome to the Pokémon Card Project! This application allows users to search fo
 
 You can see a live demo of the application deployed on Vercel:
 
-[Live Preview](https://pokemoncard-stats.vercel.app/)
+[▶️ Live Preview](https://pokemoncard-stats.vercel.app/)
 
 ![Preview Image](https://raw.githubusercontent.com/Prathamesh0222/cohort-journey/main/Assignments/Pokemon-Card/public/preview.jpg)
 
