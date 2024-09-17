@@ -2,6 +2,8 @@
 
 This project is a dynamic Form Builder built with React, allowing users to create forms with different field types (`text`, `checkbox`, `radio`). The form fields can be added dynamically, and for `radio` fields, multiple options can be specified.
 
+[▶️ Live Preview](https://formbuilder-sigma.vercel.app/)
+
 ## Features
 
 - **Dynamic Field Addition**: Users can add fields by specifying a field label and field type (`text`, `checkbox`, or `radio`).
