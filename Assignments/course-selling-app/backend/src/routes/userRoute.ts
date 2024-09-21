@@ -1,19 +1,16 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { z } from "zod";
 import UserModel from "../model/User";
+import bcrypt from "bcryptjs";
+import { signInSchema, signUpSchema } from "../validations/user.schema";
 
-const signUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  username: z.string()
-})
+
 
 const userRouter = express.Router();
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
 
-  const { email, password, username } = signUpSchema.parse(req.body);
+  const { email, password, username, role } = signUpSchema.parse(req.body);
   const existingUser = await UserModel.findOne({
     email,
   });
@@ -24,13 +21,17 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
     });
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const newUser = new UserModel({
     email,
-    password,
+    password: hashedPassword,
     username,
+    role: role || "user"
   });
 
-  const token = jwt.sign(newUser, process.env.JWT_SECRET!);
+  const tokenPayload = { id: (newUser._id as string).toString() };
+  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET!);
 
   await newUser.save();
 
@@ -40,15 +41,36 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   });
 })
 
-const signInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-})
+userRouter.post("/signin", async (req: Request, res: Response) => {
 
-userRouter.post("/signin", (req: Request, res: Response) => {
-  res.json({
-    message: "signin endpoint",
+  const { email, password } = signInSchema.parse(req.body);
+
+  const user = await UserModel.findOne({
+    email,
   });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  const isValidPassword = await bcrypt.compare(password, user.password);
+
+  if (!isValidPassword) {
+    return res.status(401).json({
+      message: "Invalid password",
+    });
+  }
+
+  const TokenPayload = { id: (user._id as string).toString() };
+  const token = jwt.sign(TokenPayload, process.env.JWT_SECRET!);
+
+  res.json({
+    message: "User signed in",
+    token,
+  });
+
 });
 
 export default userRouter;
