@@ -28,10 +28,25 @@ function findHashWithPrefix2(prefix: string, start: string) {
   }
 }
 
+function findNonceForInput(prefix: string, inputString: string) {
+  let nonce = 0;
+  while (true) {
+    const combinedInput = `${inputString}${nonce}`;
+    const hash = getCryptoHash256(combinedInput);
+    if (hash.startsWith(prefix)) {
+      return { nonce, hash };
+    }
+    nonce++;
+  }
+}
+
 const prefix = "0000";
 const startString = "100xdevs";
+const inputString = "harkirat => Raman | Rs 100 Ram => Ankit | Rs 101935085";
 const result = findHashWithPrefix(prefix);
 const result2 = findHashWithPrefix2(prefix, startString);
+const result3 = findNonceForInput(prefix, inputString);
 console.log(`Input is: ${result.input}`);
 console.log(`Output hash is: ${result.hash}`);
 console.log(`Input: ${result2.input}\nOutput: ${result2.hash}`);
+console.log(`Nonce: ${result3.nonce}\nOutput Hash: ${result3.hash}`);
