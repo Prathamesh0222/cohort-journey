@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   session: {
     strategy: "jwt",
   },
@@ -27,9 +27,9 @@ export const authOptions: NextAuthOptions = {
         }
         const isValidPassword = await bcrypt.compare(
           credentials.password,
-          user.password,
+          user.password
         );
-        if (isValidPassword) {
+        if (!isValidPassword) {
           throw new Error("Incorrect Password");
         }
         return { id: user.id, email: user.email, username: user.username };
@@ -39,19 +39,23 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/sign-in",
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.name = user.name;
+        token.id = user.id as string;
+        token.username = user.username;
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.name = token.name;
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.username = token.username;
+        session.user.email = token.email;
+      }
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
-};
+} satisfies NextAuthOptions;
