@@ -6,6 +6,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
 
 const SignIn = () => {
   const [inputs, setInputs] = useState({
@@ -22,7 +23,7 @@ const SignIn = () => {
     });
 
     if (!res) {
-      throw new Error("Blah Blah Blah");
+      throw new Error("Invalid data");
     } else {
       router.push("/dashboard");
     }
@@ -35,12 +36,14 @@ const SignIn = () => {
 
   return (
     <div>
+      <Label>Email</Label>
       <Input
         value={inputs.email}
         onChange={handleInputChange}
         type="text"
         placeholder="abc@example.com"
       />
+      <Label>Password</Label>
       <Input
         value={inputs.password}
         onChange={handleInputChange}
