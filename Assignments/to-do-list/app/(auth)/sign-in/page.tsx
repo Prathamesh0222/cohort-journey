@@ -15,8 +15,7 @@ const SignIn = () => {
   });
   const router = useRouter();
 
-  const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const res = await signIn("credentials", {
       redirect: false,
       ...inputs,
@@ -38,6 +37,7 @@ const SignIn = () => {
     <div>
       <Label>Email</Label>
       <Input
+        name="email"
         value={inputs.email}
         onChange={handleInputChange}
         type="text"
@@ -45,12 +45,13 @@ const SignIn = () => {
       />
       <Label>Password</Label>
       <Input
+        name="password"
         value={inputs.password}
         onChange={handleInputChange}
         type="password"
         placeholder="12345678"
       />
-      <Button onClick={() => handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit}>Submit</Button>
       <Link href={"/sign-up"}>Sign Up</Link>
     </div>
   );

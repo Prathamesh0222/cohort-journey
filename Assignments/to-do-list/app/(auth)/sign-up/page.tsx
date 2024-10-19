@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SignUpInput, signUpSchema } from "@/lib/auth-validation";
 import { EyeClosed, EyeIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { signIn } from "next-auth/react";
 
 const SignUp = () => {
   const [inputs, setInputs] = useState<SignUpInput>({
@@ -18,18 +19,32 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     const result = signUpSchema.parse(inputs);
-    const res = await fetch("api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(result),
-    });
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Error registering user");
+    try {
+      const res = await fetch("api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+        const signInRes = await signIn("credentials", {
+          redirect: false,
+          ...inputs,
+        });
+
+        if (!signInRes) {
+          throw new Error("Invalid data");
+        } else {
+          router.push("/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Error while signing up", error);
     }
-    router.push("/dashboard");
   };
 
   const handleShowPassword = () => {

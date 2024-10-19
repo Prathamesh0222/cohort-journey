@@ -1,7 +1,6 @@
 import { signUpSchema } from "@/lib/auth-validation";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { signIn } from "next-auth/react";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -50,15 +49,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return Response.json(
-      {
-        message: "User created successfully",
-        user: { id: user.id, email: user.email, username: user.username },
-      },
-      {
-        status: 200,
-      }
-    );
+    return Response.json({
+      message: "User created successfully",
+      user,
+    });
   } catch (error) {
     console.error("Error while signing up", error);
     return Response.json(
