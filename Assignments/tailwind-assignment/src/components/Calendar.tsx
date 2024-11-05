@@ -9,12 +9,12 @@ import {
 const Calandar = () => {
   const constants = {
     blockOne: {
-      time: "7:30 AM",
+      time: "7:30 PM",
       title: "UI/UX Webinar",
       event: "Live",
     },
     blockTwo: {
-      time: "9:30 AM",
+      time: "9:30 PM",
       title: "ReactJS Webinar",
       event: "Upcoming",
     },
@@ -37,7 +37,7 @@ const Calandar = () => {
           <span>
             <Calendar />
           </span>
-          <p>Monday, 4th November 2024</p>
+          <p>Tuesday, 5th November 2024</p>
           <span>
             <ChevronDown size={15} />
           </span>
