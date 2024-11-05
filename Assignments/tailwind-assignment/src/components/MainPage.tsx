@@ -7,7 +7,7 @@ const MainPage = () => {
       <div className="hidden md:block transition-all duration-200 col-span-2 bg-white">
         <Sidebar />
       </div>
-      <div className="col-span-12 md:col-span-10 bg-green-500">
+      <div className="col-span-12 md:col-span-10">
         <Content />
       </div>
     </div>
